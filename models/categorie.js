@@ -7,8 +7,7 @@ const CategorieModel = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
   },
   {
-    timestamps: true,
-    tableName: 'categories',
+    tableName: 'Categories',
   });
 
   return Categorie;

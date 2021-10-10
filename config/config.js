@@ -1,4 +1,6 @@
 // transformar em js e usar o dotenv
+require('dotenv').config();
+
 module.exports = {
   development: {
     username: process.env.MYSQL_USER,
