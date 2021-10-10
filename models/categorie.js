@@ -3,8 +3,12 @@
 // este código pelo seguinte:
 // models/categorie.js
 const CategorieModel = (sequelize, DataTypes) => {
-  const Categorie = sequelize.define('Categories', {
+  const Categorie = sequelize.define('Categorie', {
     name: DataTypes.STRING,
+  },
+  {
+    timestamps: true,
+    tableName: 'categories',
   });
 
   return Categorie;
