@@ -1,17 +1,17 @@
 const express = require('express');
 
-const { validations } = require('./middlewares');
+const { validations, authJWT } = require('./middlewares');
 const { userController } = require('./controllers');
 
 const router = express.Router();
 
 router.post('/user', validations.createUser, userController.createUser);
 router.post('/login', validations.login, userController.login);
+router.get('/user', authJWT, userController.getAllUsers);
 
 module.exports = router;
 
 // router.post('/', productsController.create);
-// router.get('/', productsController.getAll);
 // router.get('/:id', productsController.getById);
 // router.put('/:id', productsController.update);
 // router.delete('/:id', productsController.deleteOne);

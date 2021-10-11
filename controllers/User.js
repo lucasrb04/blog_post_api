@@ -38,7 +38,14 @@ const login = rescue(async (req, res, next) => {
   res.status(200).json({ token });
 });
 
+const getAllUsers = rescue(async (_req, res, _next) => {
+  const users = await userService.getAllUsers();
+
+  res.status(200).json(users);
+});
+
 module.exports = {
   createUser,
   login,
+  getAllUsers,
 };
