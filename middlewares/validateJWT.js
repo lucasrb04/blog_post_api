@@ -1,12 +1,13 @@
 // validateJWT.js
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 /* Mesma chave privada que usamos para criptografar o token.
    Agora, vamos usá-la para descriptografá-lo.
    Numa aplicação real, essa chave jamais ficaria hardcoded no código assim,
    e muitos menos de forma duplicada, mas aqui só estamos interessados em
    ilustrar seu uso ;) */
-   const secret = 'secret';
+   const secret = process.env.JWT_SECRET;
 
 module.exports = async (req, res, next) => {
   /* Aquele token gerado anteriormente virá na requisição através do
