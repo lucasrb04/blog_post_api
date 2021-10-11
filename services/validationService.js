@@ -9,6 +9,17 @@ const userExists = (existingUser) => {
   }
 };
 
+const categoryExists = (existingCategory) => {
+  if (existingCategory) {
+    return {
+      number: 409,
+      error: {
+        message: 'Category already registered',
+      },
+    };
+  }
+};
+
 const authenticatedLogin = (existingUser, password) => {
   if (!existingUser || existingUser.password !== password) {
     return {
@@ -35,4 +46,5 @@ module.exports = {
   userExists,
   authenticatedLogin,
   validUser,
+  categoryExists,
 };

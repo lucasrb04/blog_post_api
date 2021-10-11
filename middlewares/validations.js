@@ -35,6 +35,12 @@ const passwordValidation = (password, res) => {
   }
 };
 
+const nameValidation = (name, res) => {
+  if (name === undefined) { 
+    return res.status(400).json({ message: '"name" is required' }); 
+  }
+};
+
 const createUser = (req, res, next) => {
   const { displayName, email, password } = req.body;
 
@@ -57,6 +63,14 @@ const login = (req, res, next) => {
   next();
 };
 
+const createCategorie = (req, res, next) => {
+  const { name } = req.body;
+
+  nameValidation(name, res);
+
+  next();
+};
+
 // const createRecipe = (req, res, next) => {
 //   const { name, ingredients, preparation } = req.body;
 //   const recipe = [name, ingredients, preparation];
@@ -75,6 +89,7 @@ const login = (req, res, next) => {
 module.exports = {
   createUser,
   login,
+  createCategorie,
   // createRecipe,
   // validateImg,
 };
