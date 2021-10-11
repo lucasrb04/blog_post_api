@@ -42,9 +42,21 @@ const validUser = (user) => {
   }
 };
 
+const validCategory = (user) => {
+  if (!user) {
+    return {
+      number: 404,
+      error: {
+        message: 'Category does not exist',
+      },
+    };
+  }
+};
+
 module.exports = {
   userExists,
   authenticatedLogin,
   validUser,
+  validCategory,
   categoryExists,
 };

@@ -14,38 +14,24 @@ const createCategory = async (name) => {
   return createdCategory;
 };
 
-const login = async (email, password) => {
-  const registeredEmail = await Category.findOne({ where: { email } });
+const getAllCategories = async () => {
+  const categories = await Category.findAll();
 
-  const isAuthenticated = validations.authenticatedLogin(registeredEmail, password);
-
-  if (!isAuthenticated) {
-    const { role, _id } = registeredEmail;
-    return { role, userId: _id, email };
-  }
-
-  return isAuthenticated;
+  return categories;
 };
 
-const getAllUsers = async () => {
-  const users = await Category.findAll();
+const getCategoryById = async (id) => {
+  const category = await Category.findByPk(id);
 
-  return users;
-};
+  const validCategory = validations.validCategory(category);
 
-const getUserById = async (id) => {
-  const user = await Category.findByPk(id);
+  if (validCategory) return validCategory;
 
-  const validUser = validations.validUser(user);
-
-  if (validUser) return validUser;
-
-  return user;
+  return category;
 };
 
 module.exports = {
   createCategory,
-  login,
-  getAllUsers,
-  getUserById,
+  getAllCategories,
+  getCategoryById,
 };

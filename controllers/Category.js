@@ -1,16 +1,6 @@
 const rescue = require('express-rescue');
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
 
 const { categoryService } = require('../services');
-
-const getToken = (email) => {
-  const secret = process.env.JWT_SECRET;
-  const jwtConfig = { expiresIn: '7d', algorithm: 'HS256' };
-  const token = jwt.sign({ email }, secret, jwtConfig);
-
-  return token;
-};
 
 const createCategory = rescue(async (req, res, next) => {
   const { name } = req.body;
@@ -22,37 +12,24 @@ const createCategory = rescue(async (req, res, next) => {
   res.status(201).json(createdCategory);
 });
 
-const login = rescue(async (req, res, next) => {
-  const { email, password } = req.body;
+const getAllCategories = rescue(async (_req, res, _next) => {
+  const categories = await categoryService.getAllCategories();
 
-  const loggedUser = await categoryService.login(email, password);
-
-  if (loggedUser.error) return next(loggedUser);
-
-  const token = getToken(email);
-  
-  res.status(200).json({ token });
+  res.status(200).json(categories);
 });
 
-const getAllUsers = rescue(async (_req, res, _next) => {
-  const users = await categoryService.getAllUsers();
-
-  res.status(200).json(users);
-});
-
-const getUserById = rescue(async (req, res, next) => {
+const getCategoryById = rescue(async (req, res, next) => {
   const { id } = req.params;
-  const user = await categoryService.getUserById(id);
+  const category = await categoryService.getCategoryById(id);
 
-  if (user.error) return next(user);
+  if (category.error) return next(category);
 
   // Caso não haja nenhum erro, retornamos o product encontrado
-  res.status(200).json(user);
+  res.status(200).json(category);
 });
 
 module.exports = {
   createCategory,
-  login,
-  getAllUsers,
-  getUserById,
+  getAllCategories,
+  getCategoryById,
 };

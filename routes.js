@@ -12,6 +12,7 @@ router.get('/user', authJWT, userController.getAllUsers);
 router.get('/user/:id', authJWT, userController.getUserById);
 
 router.post('/categories', validations.createCategorie, authJWT, categoryController.createCategory);
+router.get('/categories', authJWT, categoryController.getAllCategories);
 
 module.exports = router;
 
