@@ -20,7 +20,19 @@ const authenticatedLogin = (existingUser, password) => {
   }
 };
 
+const validUser = (user) => {
+  if (!user) {
+    return {
+      number: 404,
+      error: {
+        message: 'User does not exist',
+      },
+    };
+  }
+};
+
 module.exports = {
   userExists,
   authenticatedLogin,
+  validUser,
 };

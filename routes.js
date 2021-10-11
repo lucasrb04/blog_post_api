@@ -6,8 +6,9 @@ const { userController } = require('./controllers');
 const router = express.Router();
 
 router.post('/user', validations.createUser, userController.createUser);
-router.post('/login', validations.login, userController.login);
 router.get('/user', authJWT, userController.getAllUsers);
+router.get('/user/:id', authJWT, userController.getUserById);
+router.post('/login', validations.login, userController.login);
 
 module.exports = router;
 

@@ -32,8 +32,19 @@ const getAllUsers = async () => {
   return users;
 };
 
+const getUserById = async (id) => {
+  const user = await User.findByPk(id);
+
+  const validUser = validations.validUser(user);
+
+  if (validUser) return validUser;
+
+  return user;
+};
+
 module.exports = {
   createUser,
   login,
   getAllUsers,
+  getUserById,
 };

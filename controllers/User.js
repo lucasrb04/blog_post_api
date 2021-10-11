@@ -44,8 +44,19 @@ const getAllUsers = rescue(async (_req, res, _next) => {
   res.status(200).json(users);
 });
 
+const getUserById = rescue(async (req, res, next) => {
+  const { id } = req.params;
+  const user = await userService.getUserById(id);
+
+  if (user.error) return next(user);
+
+  // Caso não haja nenhum erro, retornamos o product encontrado
+  res.status(200).json(user);
+});
+
 module.exports = {
   createUser,
   login,
   getAllUsers,
+  getUserById,
 };
