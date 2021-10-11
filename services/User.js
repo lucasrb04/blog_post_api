@@ -14,12 +14,12 @@ const createUser = async (displayName, email, password, image) => {
 };
 
 const login = async (email, password) => {
-  const existingUser = await User.findByEmail(email);
+  const registeredEmail = await User.findOne({ where: { email } });
 
-  const isAuthenticated = validations.authenticatedLogin(existingUser, password);
+  const isAuthenticated = validations.authenticatedLogin(registeredEmail, password);
 
   if (!isAuthenticated) {
-    const { role, _id } = existingUser;
+    const { role, _id } = registeredEmail;
     return { role, userId: _id, email };
   }
 

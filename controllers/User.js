@@ -33,7 +33,7 @@ const login = rescue(async (req, res, next) => {
 
   if (loggedUser.error) return next(loggedUser);
 
-  const token = getToken(loggedUser);
+  const token = getToken(email);
   
   res.status(200).json({ token });
 });

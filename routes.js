@@ -6,6 +6,7 @@ const { userController } = require('./controllers');
 const router = express.Router();
 
 router.post('/user', validations.createUser, userController.createUser);
+router.post('/login', validations.login, userController.login);
 
 module.exports = router;
 
@@ -16,7 +17,6 @@ module.exports = router;
 // router.delete('/:id', productsController.deleteOne);
 
 // router.post('user', validate.createUser, userController.createUser);
-// router.post('login', validate.login, userController.login);
 // router.get('images/:id.jpeg', recipeController.getImage);
 
 // router.get('recipes', recipeController.getAllRecipes);
