@@ -10,13 +10,12 @@ const UserModel = (sequelize, DataTypes) => {
     image: DataTypes.STRING,
   },
   {
-    timestamp: true,
+    timestamps: false,
     tableName: 'Users',
-    underscored: true,
   });
 
   User.associate = (models) => {
-    User.hasOne(models.blogPost,
+    User.hasMany(models.BlogPost,
       { foreignKey: 'userId', as: 'BlogPosts' });
   };
 
