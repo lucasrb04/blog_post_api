@@ -4,7 +4,6 @@ const validations = require('./validationService');
 const createCategory = async (name) => {
   const registeredCategory = await Category.findOne({ where: { name } });
 
-  console.log('cheguei');
   const isExist = validations.categoryExists(registeredCategory);
 
   if (isExist) return isExist;
