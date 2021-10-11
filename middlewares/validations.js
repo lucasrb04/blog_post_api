@@ -71,25 +71,39 @@ const createCategorie = (req, res, next) => {
   next();
 };
 
-// const createRecipe = (req, res, next) => {
-//   const { name, ingredients, preparation } = req.body;
-//   const recipe = [name, ingredients, preparation];
-//   existingFields(recipe, res);
+const titleValidation = (title, res) => {
+  if (title === undefined) { 
+    return res.status(400).json({ message: '"title" is required' }); 
+  }
+};
 
-//   next();
-// };
+const contentValidation = (content, res) => {
+  if (content === undefined) { 
+    return res.status(400).json({ message: '"content" is required' }); 
+  }
+};
 
-// const validateImg = (req, res, next) => {
-//   if (req.file.mimetype !== 'image/jpeg') {
-//     return res.status(400).json({ message: 'Wrong file format' }); 
-//   }
-//   next();
-// };
+const categoryIdsValidation = (title, res) => {
+  if (title === undefined) { 
+    return res.status(400).json({ message: '"categoryId" is required' }); 
+  }
+};
+
+const createCategory = (req, res, next) => {
+  const { title, content, categoryIds } = req.body;
+
+  titleValidation(title, res);
+
+  contentValidation(content, res);
+
+  categoryIdsValidation(categoryIds, res);
+
+  next();
+};
 
 module.exports = {
   createUser,
   login,
   createCategorie,
-  // createRecipe,
-  // validateImg,
+  createCategory,
 };
