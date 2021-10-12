@@ -62,41 +62,24 @@ const getPostById = async (id) => {
 const updatePost = async (postToUpdate) => {
   const { postId, title, content, userId } = postToUpdate;
 
-  const id = 3;
-
-  const registeredPost = await BlogPost.findByPk(postId);
+  const registeredPost = await BlogPost.findOne(
+    { 
+      where: { id: postId },
+      include: [{ model: Category, as: 'categories', through: { attributes: [] } }],
+    },
+  );
 
   const isValid = validations.validPost(registeredPost, userId);
-
-  if (isValid) return isValid;
   
-  const [updatedPost] = await BlogPost.update(
+  if (isValid) return isValid;
+  await BlogPost.update(
     { title, content },
-    { where: { id } },
-);
-
-  return updatedPost;
+    { 
+      where: { id: postId },
+    },
+  );
+  return { title, content, userId, categories: registeredPost.categories };
 };
-
-//   try {
-//     const { title, author, pageQuantity } = req.body;
-//     const { id } = req.params;
-
-//     const [updateBook] = await Book.update(
-//       { title, author, pageQuantity },
-//       { where: { id } },
-//     );
-
-//     console.log(updateBook); // confira o que é retornado quando o book com o id é ou não encontrado;
-
-//     if(!updateBook) return res.status(404).json({ message: 'Usuário não encontrado' });
-
-//     return res.status(200).json({ message: 'Usuário atualizado com sucesso!' });
-//   } catch (e) {
-//     console.log(e.message);
-//     res.status(500).json({ message: 'Algo deu errado' });
-//   }
-// });
 
 module.exports = {
   createPost,

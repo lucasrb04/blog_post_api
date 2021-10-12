@@ -76,7 +76,7 @@ const validPost = (post, userId) => {
   }
   if (post.userId !== userId) {
     return {
-      number: 403,
+      number: 401,
       error: {
         message: 'Unauthorized user',
       },
