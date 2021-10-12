@@ -109,28 +109,9 @@ const createPost = (req, res, next) => {
   next();
 };
 
-const categoryIdExists = (categoryIds, res) => {
-  if (categoryIds !== undefined) { 
-    return res.status(400).json({ message: 'Categories cannot be edited' }); 
-  }
-};
-
-const updatePost = (req, res, next) => {
-  const { title, content, categoryIds } = req.body;
-
-  titleValidation(title, res);
-
-  contentValidation(content, res);
-
-  categoryIdExists(categoryIds, res);
-
-  next();
-};
-
 module.exports = {
   createUser,
   login,
   createCategory,
   createPost,
-  updatePost,
 };

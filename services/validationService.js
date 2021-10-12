@@ -1,4 +1,3 @@
-// refatorar, colocar as duas funções em 1
 const userExists = (existingUser) => {
   if (existingUser) {
     return {
@@ -65,20 +64,12 @@ const postExists = (existingPost) => {
   }
 };
 
-const validPost = (post, userId) => {
+const validPost = (post) => {
   if (!post) {
     return {
       number: 404,
       error: {
         message: 'Post does not exist',
-      },
-    };
-  }
-  if (post.userId !== userId) {
-    return {
-      number: 401,
-      error: {
-        message: 'Unauthorized user',
       },
     };
   }

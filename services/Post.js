@@ -1,4 +1,4 @@
-const { BlogPost, User, Category, PostsCategories } = require('../models');
+const { BlogPost, User, Category } = require('../models');
 const validations = require('./validationService');
 
 const createPost = async (title, content, categoryIds, userId) => {
@@ -7,12 +7,8 @@ const createPost = async (title, content, categoryIds, userId) => {
   const isExist = validations.postExists(registeredPost);
   if (isExist) return isExist;
 
-  const createdPost = await BlogPost.create({ title, content, userId });
-// https://oieduardorabelo.medium.com/javascript-armadilhas-do-asyn-await-em-loops-1cdad44db7f0
-  categoryIds.map(async (categoryId) => {
-    await PostsCategories.create({ postId: createdPost.id, categoryId });
-  });
-  
+  const createdPost = await BlogPost.create({ title, content, categoryIds, userId });
+
   return createdPost;
 };
 
@@ -59,44 +55,8 @@ const getPostById = async (id) => {
   return post;
 };
 
-const updatePost = async (postToUpdate) => {
-  const { postId, title, content, userId } = postToUpdate;
-
-  const registeredPost = await BlogPost.findOne(
-    { 
-      where: { id: postId },
-      include: [{ model: Category, as: 'categories', through: { attributes: [] } }],
-    },
-  );
-
-  const isValid = validations.validPost(registeredPost, userId);
-  
-  if (isValid) return isValid;
-  await BlogPost.update(
-    { title, content },
-    { 
-      where: { id: postId },
-    },
-  );
-  return { title, content, userId, categories: registeredPost.categories };
-};
-
-const deletePost = async (postToDelete) => {
-  const { postId, userId } = postToDelete;
-  const registeredPost = await BlogPost.findOne({ where: { id: postId } });
-
-  const isValid = validations.validPost(registeredPost, userId);
-  
-  if (isValid) return isValid;
-
-  const deletedPost = await BlogPost.destroy({ where: { id: postId } });
-  return deletedPost;
-};
-
 module.exports = {
   createPost,
   getAllPosts,
   getPostById,
-  updatePost,
-  deletePost,
 };
