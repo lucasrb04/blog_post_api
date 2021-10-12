@@ -30,10 +30,13 @@ const getPostById = rescue(async (req, res, next) => {
 });
 
 const updatePost = rescue(async (req, res, next) => {
-  const { id } = req.params;
-  const { name } = req.body;
+  const { postId } = req.params;
+  const { title, content, categoryIds } = req.body;
+  const { userId } = req;
 
-  const updatedPost = await postService.updatePost(id, name);
+  const postToUpdate = { postId, title, content, categoryIds, userId };
+
+  const updatedPost = await postService.updatePost(postToUpdate);
 
   if (updatedPost.error) return next(updatedPost);
 

@@ -55,8 +55,46 @@ const getPostById = async (id) => {
   return post;
 };
 
+const updatePost = async (postToUpdate) => {
+  const { postId, title, content, userId } = postToUpdate;
+
+  const registeredPost = await BlogPost.findByPk({ id: postId });
+
+  const isValid = validations.validPost(registeredPost, userId);
+
+  if (isValid) return isValid;
+
+  const updatedPost = await BlogPost.update(
+    { title, content },
+    { where: { postId } },
+);
+
+  return updatedPost;
+};
+
+//   try {
+//     const { title, author, pageQuantity } = req.body;
+//     const { id } = req.params;
+
+//     const [updateBook] = await Book.update(
+//       { title, author, pageQuantity },
+//       { where: { id } },
+//     );
+
+//     console.log(updateBook); // confira o que é retornado quando o book com o id é ou não encontrado;
+
+//     if(!updateBook) return res.status(404).json({ message: 'Usuário não encontrado' });
+
+//     return res.status(200).json({ message: 'Usuário atualizado com sucesso!' });
+//   } catch (e) {
+//     console.log(e.message);
+//     res.status(500).json({ message: 'Algo deu errado' });
+//   }
+// });
+
 module.exports = {
   createPost,
   getAllPosts,
   getPostById,
+  updatePost,
 };
