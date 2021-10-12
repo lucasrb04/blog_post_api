@@ -1,5 +1,8 @@
 // validateJWT.js
 const jwt = require('jsonwebtoken');
+
+const { userService } = require('../services');
+
 require('dotenv').config();
 
 /* Mesma chave privada que usamos para criptografar o token.
@@ -23,7 +26,21 @@ module.exports = async (req, res, next) => {
 
   try {
     /* Através o método verify, podemos validar e decodificar o nosso JWT. */
-    jwt.verify(token, secret);
+    const decoded = jwt.verify(token, secret);
+       /*
+      A variável decoded será um objeto equivalente ao seguinte:
+      {
+        data: {
+          id: '5e54590ba49448f7e5fa73c0',
+          email: 'italssodj',
+          password: 'senha123'
+        },
+        iat: 1582587327,
+        exp: 1584774714908
+      }
+    */
+
+    const user = await userService.getUserByEmail(decoded.email);
     /*
       A variável decoded será um objeto equivalente ao seguinte:
       {
@@ -46,6 +63,7 @@ module.exports = async (req, res, next) => {
     /* O usuário existe! Colocamos ele em um campo no objeto req.
        Dessa forma, o usuário estará disponível para outros middlewares que
        executem em sequência */
+       req.userId = user.id;
     /* Por fim, chamamos o próximo middleware que, no nosso caso,
        é a própria callback da rota. */
     next();

@@ -1,3 +1,5 @@
+const { categoryService } = require('../services');
+
 const displayNameValidation = (displayName, res) => {
   if (displayName.length < 8) {
     return res.status(400).json(
@@ -63,7 +65,7 @@ const login = (req, res, next) => {
   next();
 };
 
-const createCategorie = (req, res, next) => {
+const createCategory = (req, res, next) => {
   const { name } = req.body;
 
   nameValidation(name, res);
@@ -83,13 +85,19 @@ const contentValidation = (content, res) => {
   }
 };
 
-const categoryIdsValidation = (title, res) => {
-  if (title === undefined) { 
-    return res.status(400).json({ message: '"categoryId" is required' }); 
+const categoryIdsValidation = (categoryIds, res) => {
+  if (categoryIds === undefined) { 
+    return res.status(400).json({ message: '"categoryIds" is required' }); 
   }
+
+  categoryIds.forEach(async (categoryId) => {
+    const category = await categoryService.getCategoryById(categoryId);
+
+    if (category.error) return res.status(400).json({ message: '"categoryIds" not found' });
+  });
 };
 
-const createCategory = (req, res, next) => {
+const createPost = (req, res, next) => {
   const { title, content, categoryIds } = req.body;
 
   titleValidation(title, res);
@@ -104,6 +112,6 @@ const createCategory = (req, res, next) => {
 module.exports = {
   createUser,
   login,
-  createCategorie,
   createCategory,
+  createPost,
 };

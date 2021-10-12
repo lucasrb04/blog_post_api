@@ -1,26 +1,25 @@
-const { Post } = require('../models');
+const { BlogPost } = require('../models');
 const validations = require('./validationService');
 
-const createPost = async (title, content, categoryIds) => {
-  const registeredPost = await Post.findOne({ where: { title } });
+const createPost = async (title, content, categoryIds, userId) => {
+  const registeredPost = await BlogPost.findOne({ where: { title } });
 
   const isExist = validations.postExists(registeredPost);
-
   if (isExist) return isExist;
 
-  const createdPost = await Post.create({ title, content, categoryIds });
+  const createdPost = await BlogPost.create({ title, content, categoryIds, userId });
 
   return createdPost;
 };
 
 const getAllPosts = async () => {
-  const posts = await Post.findAll();
+  const posts = await BlogPost.findAll();
 
   return posts;
 };
 
 const getPostById = async (id) => {
-  const post = await Post.findByPk(id);
+  const post = await BlogPost.findByPk(id);
 
   const validPost = validations.validPost(post);
 

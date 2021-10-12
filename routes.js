@@ -11,14 +11,14 @@ router.post('/user', validations.createUser, userController.createUser);
 router.get('/user', authJWT, userController.getAllUsers);
 router.get('/user/:id', authJWT, userController.getUserById);
 
-router.post('/categories', validations.createCategorie, authJWT, categoryController.createCategory);
+router.post('/categories', validations.createCategory, authJWT, categoryController.createCategory);
 router.get('/categories', authJWT, categoryController.getAllCategories);
 
-router.post('/post', validations.createPost, postController.createPost);
+router.post('/post', validations.createPost, authJWT, postController.createPost);
 router.get('/post', authJWT, postController.getAllPosts);
 router.get('/post/:id', authJWT, postController.getPostById);
 router.put('/post/:id', authJWT, postController.updatePost);
-router.delete('/post/:id', authJWT, postController.deletePost);
+// router.delete('/post/:id', authJWT, postController.deletePost);
 
 module.exports = router;
 

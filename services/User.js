@@ -1,6 +1,12 @@
 const { User } = require('../models');
 const validations = require('./validationService');
 
+const getUserByEmail = async (email) => {
+  const user = await User.findOne({ where: { email } });
+
+  return user;
+};
+
 const createUser = async (displayName, email, password, image) => {
   const registeredEmail = await User.findOne({ where: { email } });
 
@@ -47,4 +53,5 @@ module.exports = {
   login,
   getAllUsers,
   getUserById,
+  getUserByEmail,
 };

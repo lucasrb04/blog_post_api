@@ -4,8 +4,9 @@ const { postService } = require('../services');
 
 const createPost = rescue(async (req, res, next) => {
   const { title, content, categoryIds } = req.body;
+  const { userId } = req;
 
-  const createdPost = await postService.createPost(title, content, categoryIds);
+  const createdPost = await postService.createPost(title, content, categoryIds, userId);
   
   if (createdPost.error) return next(createdPost);
 

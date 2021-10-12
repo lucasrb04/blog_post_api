@@ -53,10 +53,22 @@ const validCategory = (user) => {
   }
 };
 
+const postExists = (existingPost) => {
+  if (existingPost) {
+    return {
+      number: 409,
+      error: {
+        message: 'Post already registered',
+      },
+    };
+  }
+};
+
 module.exports = {
   userExists,
   authenticatedLogin,
   validUser,
   validCategory,
   categoryExists,
+  postExists,
 };
