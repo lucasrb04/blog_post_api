@@ -74,7 +74,7 @@ const validPost = (post, userId) => {
       },
     };
   }
-  if (post.id !== userId) {
+  if (post.userId !== userId) {
     return {
       number: 403,
       error: {
