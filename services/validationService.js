@@ -42,8 +42,8 @@ const validUser = (user) => {
   }
 };
 
-const validCategory = (user) => {
-  if (!user) {
+const validCategory = (category) => {
+  if (!category) {
     return {
       number: 404,
       error: {
@@ -64,6 +64,17 @@ const postExists = (existingPost) => {
   }
 };
 
+const validPost = (post) => {
+  if (!post) {
+    return {
+      number: 404,
+      error: {
+        message: 'Post does not exist',
+      },
+    };
+  }
+};
+
 module.exports = {
   userExists,
   authenticatedLogin,
@@ -71,4 +82,5 @@ module.exports = {
   validCategory,
   categoryExists,
   postExists,
+  validPost,
 };

@@ -22,7 +22,9 @@ const getAllPosts = async () => {
     {
       model: Category,
       as: 'categories',
-      attributes: { exclude: ['PostsCategory'] },
+      // para não exibir os valores da tabela PostCategory, usamos o seguinte atributo. (tabela de conexão)
+      // https://www.youtube.com/watch?v=p83qrlaCRw4 minuto: 14:50
+      through: { attributes: [] },
     }],
   });
 
@@ -30,7 +32,21 @@ const getAllPosts = async () => {
 };
 
 const getPostById = async (id) => {
-  const post = await BlogPost.findByPk(id);
+  const post = await BlogPost.findOne({
+    where: { id },
+    include: [{
+      model: User,
+      as: 'user',
+      attributes: ['id', 'displayName', 'email', 'image'],
+    },
+    {
+      model: Category,
+      as: 'categories',
+      // para não exibir os valores da tabela PostCategory, usamos o seguinte atributo. (tabela de conexão)
+      // https://www.youtube.com/watch?v=p83qrlaCRw4 minuto: 14:50
+      through: { attributes: [] },
+    }],
+  });
 
   const validPost = validations.validPost(post);
 
