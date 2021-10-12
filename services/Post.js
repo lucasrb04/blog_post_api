@@ -81,9 +81,22 @@ const updatePost = async (postToUpdate) => {
   return { title, content, userId, categories: registeredPost.categories };
 };
 
+const deletePost = async (postToDelete) => {
+  const { postId, userId } = postToDelete;
+  const registeredPost = await BlogPost.findOne({ where: { id: postId } });
+
+  const isValid = validations.validPost(registeredPost, userId);
+  
+  if (isValid) return isValid;
+
+  const deletedPost = await BlogPost.destroy({ where: { id: postId } });
+  return deletedPost;
+};
+
 module.exports = {
   createPost,
   getAllPosts,
   getPostById,
   updatePost,
+  deletePost,
 };
