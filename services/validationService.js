@@ -74,15 +74,15 @@ const validPost = (post, userId) => {
       },
     };
   }
-  if (post.userId !== userId) {
-    return {
-      number: 401,
-      error: {
-        message: 'Unauthorized user',
-      },
-    };
-  }
-};
+    if (userId !== undefined && post.userId !== userId) {
+      return {
+        number: 401,
+        error: {
+          message: 'Unauthorized user',
+        },
+      };
+    }
+  };
 
 module.exports = {
   userExists,
