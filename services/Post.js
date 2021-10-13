@@ -9,9 +9,10 @@ const createPost = async (title, content, categoryIds, userId) => {
 
   const createdPost = await BlogPost.create({ title, content, userId });
 // https://oieduardorabelo.medium.com/javascript-armadilhas-do-asyn-await-em-loops-1cdad44db7f0
-  categoryIds.map(async (categoryId) => {
+  const promises = categoryIds.map(async (categoryId) => {
     await PostsCategories.create({ postId: createdPost.id, categoryId });
   });
+  await Promise.all(promises);
   
   return createdPost;
 };
