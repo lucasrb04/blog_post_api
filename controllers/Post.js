@@ -54,10 +54,21 @@ const deletePost = rescue(async (req, res, next) => {
   res.status(204).json();
 });
 
+const searchPosts = rescue(async (req, res, next) => {
+  const { q } = req.query;
+
+  const posts = await postService.searchPosts(q);
+
+  if (posts.error) return next(posts);
+
+  res.status(200).json(posts);
+});
+
 module.exports = {
   createPost,
   getAllPosts,
   getPostById,
   updatePost,
   deletePost,
+  searchPosts,
 };

@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { BlogPost, User, Category, PostsCategories } = require('../models');
 const validations = require('./validationService');
 
@@ -94,10 +95,29 @@ const deletePost = async (postToDelete) => {
   return deletedPost;
 };
 
+const searchPosts = async (searchTerm) => {
+  const posts = await BlogPost.findAll({ 
+      where: {
+        [Op.or]: [
+          { title: { [Op.like]: `%${searchTerm}%` } },
+          { content: { [Op.like]: `%${searchTerm}%` } },
+        ],
+      },
+      include: [{
+        model: User,
+        as: 'user',
+        attributes: ['id', 'displayName', 'email', 'image'],
+      },
+      { model: Category, as: 'categories', through: { attributes: [] } }],
+    });
+  return posts;
+  };
+
 module.exports = {
   createPost,
   getAllPosts,
   getPostById,
   updatePost,
   deletePost,
+  searchPosts,
 };
