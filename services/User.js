@@ -48,10 +48,23 @@ const getUserById = async (id) => {
   return user;
 };
 
+const deleteMyUser = async (userId) => {
+  const user = await User.findByPk(userId);
+
+  const validUser = validations.validUser(user);
+
+  if (validUser) return validUser;
+
+  await user.destroy();
+
+  return { message: 'User deleted successfully' };
+};
+
 module.exports = {
   createUser,
   login,
   getAllUsers,
   getUserById,
   getUserByEmail,
+  deleteMyUser,
 };

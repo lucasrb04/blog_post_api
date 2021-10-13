@@ -10,6 +10,7 @@ router.post('/login', validations.login, userController.login);
 router.post('/user', validations.createUser, userController.createUser);
 router.get('/user', authJWT, userController.getAllUsers);
 router.get('/user/:id', authJWT, userController.getUserById);
+router.delete('/user/me', authJWT, userController.deleteMyUser);
 
 router.post('/categories', validations.createCategory, authJWT, categoryController.createCategory);
 router.get('/categories', authJWT, categoryController.getAllCategories);

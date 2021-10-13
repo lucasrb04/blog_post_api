@@ -54,9 +54,20 @@ const getUserById = rescue(async (req, res, next) => {
   res.status(200).json(user);
 });
 
+const deleteMyUser = rescue(async (req, res, next) => {
+  const { userId } = req;
+
+  const deletedUser = await userService.deleteMyUser(userId);
+
+  if (deletedUser.error) return next(deletedUser);
+
+  res.status(204).json();
+});
+
 module.exports = {
   createUser,
   login,
   getAllUsers,
   getUserById,
+  deleteMyUser,
 };
